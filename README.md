@@ -29,7 +29,7 @@ This is not your regular browser extension. This is your **spiritual partner**, 
 2. **Step into the Brave World:**
    - Open Brave/Chrome.
    - Go to `brave://extensions` or `chrome://extensions`.
-   - Enable **Developer Mode** (because you’re a developer now!).
+   - Enable **Developer Mode** (will push it up on Prod mode later for public).
    - Click **Load unpacked** and select the folder.
 3. **Open a New Tab and Witness the Divine!** ✨
 
@@ -69,6 +69,7 @@ A: That's the Gita magic working its way into your soul. You're welcome.
 
 Did you know that if you add enough shlokas to `shlokas.txt`, you can keep your browser spiritual for the rest of your life?
 That's immortality right there, folks. 💡
+Well, Jokes apart, a typical shloka in text form is around 200–300 bytes. At this size, you can store approximately 35,000 to 50,000 shlokas in a single file. Chrome extensions have a total size limit of 50 MB for all assets combined. To be on safer side, try keeping it 1000 shlokas, max. Gita's principles are more important than the 'total count'. You know what i mean :~)
 
 ---
 
