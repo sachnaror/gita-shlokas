@@ -5,7 +5,9 @@ This is not your regular browser extension. This is your **spiritual partner**, 
 
 ---
 
-[![Divine Wisdom in Every Tab | Bhagavad Gita Shlokas](https://img.youtube.com/vi/hDppH3E5wmA/0.jpg)](https://youtu.be/hDppH3E5wmA)
+<a href="https://youtu.be/hDppH3E5wmA" target="_blank">
+    <img src="https://img.youtube.com/vi/hDppH3E5wmA/0.jpg" alt="Divine Wisdom in Every Tab | Bhagavad Gita Shlokas" style="width:600px; height:420px;">
+</a>
 
 ---
 
