@@ -11,20 +11,8 @@ body {
   text-align: center;
 }
 
-#canvas {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 20px;
-}
-
 #shloka-text {
-  font-size: 22px;
-  margin: 0;
-}
-
-#shloka-verse {
-  font-size: 16px;
-  margin-top: 15px;
+  font-size: 24px;
+  max-width: 80%;
+  line-height: 1.5;
 }

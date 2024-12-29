@@ -1,49 +1,61 @@
-const API_URL = "https://api.openai.com/v1/completions";
-const API_KEY = "your_openai_api_key_here"; // Replace with your OpenAI API key
+let shlokas = [];
+let currentIndex = 0;
 
-document.addEventListener("DOMContentLoaded", async () => {
-    const shlokaText = document.getElementById("shloka-text");
-    const shlokaVerse = document.getElementById("shloka-verse");
+const SHLOKA_FILE_PATH = chrome.runtime.getURL("shlokas.txt");
 
-    // Function to fetch a shloka using OpenAI
-    async function fetchShloka() {
-        const totalVerses = 233;
-        const verseNumber = Math.floor(Math.random() * totalVerses) + 1;
+async function readShlokasFromFile() {
+    try {
+        console.log(`Fetching shlokas from: ${SHLOKA_FILE_PATH}`);
+        const response = await fetch(SHLOKA_FILE_PATH);
 
-        const prompt = `Provide the Bhagavad Gita shloka number ${verseNumber}, including the Devanagari text and its English meaning.`;
+        if (!response.ok) throw new Error(`Failed to fetch file: ${response.statusText}`);
 
-        try {
-            const response = await fetch(API_URL, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${API_KEY}`,
-                },
-                body: JSON.stringify({
-                    model: "text-davinci-003",
-                    prompt: prompt,
-                    max_tokens: 150,
-                    temperature: 0.7,
-                }),
-            });
+        const text = await response.text();
+        shlokas = text.split("\n").filter((line) => line.trim() !== "");
 
-            const data = await response.json();
-
-            if (data && data.choices && data.choices[0]) {
-                const shlokaTextContent = data.choices[0].text.trim();
-                shlokaText.textContent = shlokaTextContent;
-                shlokaVerse.textContent = `Verse: ${verseNumber}`;
-            } else {
-                shlokaText.textContent = "Failed to fetch shloka.";
-                shlokaVerse.textContent = "";
-            }
-        } catch (error) {
-            console.error("Error fetching shloka:", error);
-            shlokaText.textContent = "Error fetching shloka. Please try again.";
-            shlokaVerse.textContent = "";
+        if (shlokas.length === 0) {
+            console.warn("No valid shlokas found in the file.");
+            shlokas = ["No shlokas available. Please check the file."];
         }
-    }
 
-    // Fetch and display the shloka
-    fetchShloka();
+        console.log("Shlokas updated:", shlokas);
+    } catch (error) {
+        console.error("Error reading shlokas from file:", error);
+        shlokas = ["No shlokas available. Please check the file."];
+    }
+}
+
+function getNextShloka() {
+    if (shlokas.length === 0) {
+        return "No shlokas available. Please check the file.";
+    }
+    const shloka = shlokas[currentIndex];
+    currentIndex = (currentIndex + 1) % shlokas.length;
+    return shloka;
+}
+
+// Refresh shlokas every 10 days
+setInterval(() => {
+    console.log("Refreshing shlokas...");
+    readShlokasFromFile();
+}, 10 * 24 * 60 * 60 * 1000);
+
+chrome.runtime.onInstalled.addListener(() => {
+    console.log("Extension installed. Loading shlokas...");
+    readShlokasFromFile();
+});
+
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+    console.log("Message received:", message);
+
+    if (message.action === "getShloka") {
+        const shloka = getNextShloka();
+        console.log("Sending shloka:", shloka);
+        sendResponse({ shloka });
+    } else if (message.action === "refreshShlokas") {
+        readShlokasFromFile().then(() => {
+            sendResponse({ status: "Shlokas refreshed" });
+        });
+        return true;
+    }
 });

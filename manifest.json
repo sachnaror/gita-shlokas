@@ -1,14 +1,13 @@
 {
   "manifest_version": 3,
-  "name": "Gita Shlokas New Tab",
+  "name": "Shloka Viewer",
   "version": "1.0",
-  "description": "Replaces the new tab page with a Bhagavad Gita shloka that updates dynamically.",
+  "description": "Displays random shlokas in a round-robin fashion from an external text file on a new tab.",
   "permissions": ["storage"],
-  "chrome_url_overrides": {
-    "newtab": "newtab.html"
-  },
-  "host_permissions": ["https://api.openai.com/*"],
   "background": {
-    "service_worker": "background.js"
+      "service_worker": "background.js"
+  },
+  "chrome_url_overrides": {
+      "newtab": "newtab.html"
   }
 }
