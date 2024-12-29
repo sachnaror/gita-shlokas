@@ -6,11 +6,15 @@ async function readShlokasFromFile() {
         console.log(`Fetching shlokas from: ${SHLOKA_FILE_PATH}`);
         const response = await fetch(SHLOKA_FILE_PATH);
 
-        if (!response.ok) throw new Error(`Failed to fetch file: ${response.statusText}`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch file: ${response.statusText}`);
+        }
 
         const text = await response.text();
-        shlokas = text.split("\n").filter((line) => line.trim() !== "");
-        console.log("Shlokas updated:", shlokas);
+        shlokas = text
+            .split("\n")
+            .filter((line) => line.trim() !== ""); // Remove empty lines
+        console.log("Shlokas loaded:", shlokas);
     } catch (error) {
         console.error("Error reading shlokas from file:", error);
     }
@@ -21,7 +25,6 @@ function getRandomShloka() {
     if (shlokas.length === 0) {
         return "No shlokas available. Please check the file.";
     }
-    // Get a random index
     const randomIndex = Math.floor(Math.random() * shlokas.length);
     return shlokas[randomIndex];
 }
@@ -32,7 +35,7 @@ setInterval(() => {
     readShlokasFromFile();
 }, 10 * 24 * 60 * 60 * 1000); // 10 days in milliseconds
 
-// Read shlokas immediately when the extension is loaded
+// Load shlokas immediately when the extension is installed or updated
 chrome.runtime.onInstalled.addListener(() => {
     console.log("Extension installed. Loading shlokas...");
     readShlokasFromFile();
@@ -41,7 +44,7 @@ chrome.runtime.onInstalled.addListener(() => {
 // Listen for requests from the content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.action === "getShloka") {
-        const shloka = getRandomShloka(); // Use the random function
+        const shloka = getRandomShloka();
         console.log("Sending random shloka:", shloka);
         sendResponse({ shloka });
     }
