@@ -5,6 +5,10 @@ This is not your regular browser extension. This is your **spiritual partner**, 
 
 ---
 
+[![Divine Wisdom in Every Tab | Bhagavad Gita Shlokas](https://img.youtube.com/vi/hDppH3E5wmA/0.jpg)](https://youtu.be/hDppH3E5wmA)
+
+---
+
 ## 🚀 What Does It Do?
 
 - Displays a **random shloka in Hindi** from the Bhagavad Gita every time you open a new tab.
