@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log("New shloka cached successfully.");
             });
         } else {
-            console.error("No shloka received or an error occurred.");
+            console.error("No shloka received.");
             shlokaElement.textContent = "Could not load shloka. Please try again later.";
         }
     });
