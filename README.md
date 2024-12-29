@@ -1,6 +1,6 @@
 # 📖 Chrome Extension for Gita-Shlokas
 
-**Namaste! 🙏 Welcome to the world of divine knowledge and ultimate wisdom.**
+**🙏 Welcome to the world of divine knowledge and ultimate wisdom.**
 This is not your regular browser extension. This is your **spiritual partner**, delivering pearls of wisdom from the Bhagavad Gita straight to your new tabs. Because why waste your screen on boring bookmarks when you can enlighten your soul?
 
 ---
