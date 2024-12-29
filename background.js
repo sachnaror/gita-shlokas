@@ -1,6 +1,4 @@
 let shlokas = [];
-let currentIndex = 0;
-
 const SHLOKA_FILE_PATH = chrome.runtime.getURL("shlokas.txt");
 
 async function readShlokasFromFile() {
@@ -12,50 +10,39 @@ async function readShlokasFromFile() {
 
         const text = await response.text();
         shlokas = text.split("\n").filter((line) => line.trim() !== "");
-
-        if (shlokas.length === 0) {
-            console.warn("No valid shlokas found in the file.");
-            shlokas = ["No shlokas available. Please check the file."];
-        }
-
         console.log("Shlokas updated:", shlokas);
     } catch (error) {
         console.error("Error reading shlokas from file:", error);
-        shlokas = ["No shlokas available. Please check the file."];
     }
 }
 
-function getNextShloka() {
+// Function to get a random shloka
+function getRandomShloka() {
     if (shlokas.length === 0) {
         return "No shlokas available. Please check the file.";
     }
-    const shloka = shlokas[currentIndex];
-    currentIndex = (currentIndex + 1) % shlokas.length;
-    return shloka;
+    // Get a random index
+    const randomIndex = Math.floor(Math.random() * shlokas.length);
+    return shlokas[randomIndex];
 }
 
-// Refresh shlokas every 10 days
+// Periodically refresh the shlokas (every 10 days)
 setInterval(() => {
     console.log("Refreshing shlokas...");
     readShlokasFromFile();
-}, 10 * 24 * 60 * 60 * 1000);
+}, 10 * 24 * 60 * 60 * 1000); // 10 days in milliseconds
 
+// Read shlokas immediately when the extension is loaded
 chrome.runtime.onInstalled.addListener(() => {
     console.log("Extension installed. Loading shlokas...");
     readShlokasFromFile();
 });
 
+// Listen for requests from the content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-    console.log("Message received:", message);
-
     if (message.action === "getShloka") {
-        const shloka = getNextShloka();
-        console.log("Sending shloka:", shloka);
+        const shloka = getRandomShloka(); // Use the random function
+        console.log("Sending random shloka:", shloka);
         sendResponse({ shloka });
-    } else if (message.action === "refreshShlokas") {
-        readShlokasFromFile().then(() => {
-            sendResponse({ status: "Shlokas refreshed" });
-        });
-        return true;
     }
 });
